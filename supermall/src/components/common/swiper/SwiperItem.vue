@@ -6,7 +6,8 @@
 
 <script>
 export default {
-    name: 'Slide'
+    // name: 'Slide'
+    name: 'SwiperItem'
 }
 </script>
 

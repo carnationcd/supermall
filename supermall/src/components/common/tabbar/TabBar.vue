@@ -17,9 +17,9 @@
 
         /* 置底 */
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
 
         /* 阴影过度 */
         box-shadow: 0 -1px 1px rgba(100, 100, 100, 0.2);
