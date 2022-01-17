@@ -57,6 +57,8 @@ import axios from "axios"
 export function request(config) {
 	//1.创建axios实例，不要用全局axios
 	const instance = axios.create({
+		// baseURL: 'www.blogry.cn/test/index',
+		// baseURL: 'www.blogry.cn/test/blog?title=我的编程经历'
 		baseURL: 'http://123.207.32.32:8000',
 		timeout: 5000000
 	})

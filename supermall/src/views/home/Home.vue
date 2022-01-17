@@ -7,58 +7,7 @@
     <recommend-view :recommends="recommends"></recommend-view>
     <feature-view></feature-view>
     <tab-control :titles="titles" :class="tab-control" />
-    <ul>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-      <li>列表</li>
-    </ul>
+    
   </div>
 </template>
 
@@ -69,7 +18,7 @@
   import FeatureView from './childcomps/FeatureView.vue'
   import TabControl from 'components/content/tabcontrol/TabControl'
 
-  import { getHomeMultidata } from 'network/home.js'
+  import { getHomeMultidata, getHomeGoods } from 'network/home.js'
 
   export default {
     name: 'Home',
@@ -86,16 +35,41 @@
         banners: [],
         recommends: [],
         titles: ['流行', '新款', '精选'],
+        goods: {
+          'pop': {page: 0, list: []},
+          'new': {page: 0, list: []},
+          'sell': {page: 0, list: []},
+        },
       }
     },
     created() {
       //1.请求多个数据
-      getHomeMultidata().then(res => {
-        // this.result = res;
-        //console.log(res);
-        this.banners = res.data.banner.list;
-        this.recommends = res.data.recommend.list;
-      })
+      this.getHomeMultidata();
+      //2.请求商品数据
+      this.getHomeGoods('pop');
+      this.getHomeGoods('new');
+      this.getHomeGoods('sell');
+    },
+    methods: {
+      //1.请求多个数据
+      getHomeMultidata() {
+        getHomeMultidata().then(res => {
+          // this.result = res;
+          //console.log(res);
+          this.banners = res.data.banner.list;
+          this.recommends = res.data.recommend.list;
+        })
+      },
+      //2.请求商品数据
+      getHomeGoods(type) {
+        const page = this.goods[type].page + 1;
+        getHomeGoods(type, page).then(res => {
+          console.log(res);
+          this.goods[type].list.push(...res.data.list);
+          this.goods[type].page += 1;
+        });
+      }
+      
     }
   }
 </script>
